@@ -1,11 +1,12 @@
 import SelectableTag from "@/components/SelectableTag";
 import styles from "@/styles";
 import { useState } from "react";
-import { FlatList, ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { router } from 'expo-router';
 
 export default function Index() {
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
-  const hasSelectedTags=():boolean => selectedTags.length > 0;
+  const hasSelectedTags = (): boolean => selectedTags.length > 0;
 
   const tags: string[] = [
     'Casado(a)',
@@ -32,6 +33,10 @@ export default function Index() {
     );
   };
 
+  const handlePress = () => {
+    router.push({ pathname: '/financialAdvice', params: { tags: selectedTags } })
+  }
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Selecione as palavras que <Text style={styles.bold}>combinam</Text> com você</Text>
@@ -47,8 +52,8 @@ export default function Index() {
           ))}
         </View>
       </ScrollView>
-      <TouchableOpacity style={hasSelectedTags()?styles.button: styles.disabledButton} disabled={!hasSelectedTags()}>
-        <Text style={hasSelectedTags()?styles.buttonText:styles.disabledButtonText}>CONTINUAR</Text>
+      <TouchableOpacity style={hasSelectedTags() ? styles.button : styles.disabledButton} disabled={!hasSelectedTags()} onPress={handlePress}>
+        <Text style={hasSelectedTags() ? styles.buttonText : styles.disabledButtonText}>CONTINUAR</Text>
       </TouchableOpacity>
     </View>
   );
